@@ -5,17 +5,9 @@
 using namespace std;
 
 /**
- * takes in an HRML tag string like <tag attribute-1="blah" attr2="something">
- * and parses it into the data structure 
- **/
-tag::tag(string str) {
-    parsestring(str);
-}
-
-/**
  * Parses the tag from string
  **/ 
-void tag::parsestring(string str) {
+tagtype tag::parsestring(string str) {
     stringstream ss(str);
     
     // start parsing attributes
@@ -23,8 +15,9 @@ void tag::parsestring(string str) {
     while(std::getline(ss, attribute_pair, ' ')) {
         // edge case 0: is this a closer </tag>
         if(attribute_pair[0] == '<' && attribute_pair[1] == '/') {
-            this->closer = true;
-            break;
+            closer = true;
+            this->tag_type = tagtype::CLOSER;
+            return tagtype::CLOSER;
         }
         // we know its not a closer
         this->closer = false;
@@ -61,6 +54,8 @@ void tag::parsestring(string str) {
         // now we have key and val so simply insert into the map
         attr[key] = val;
     }
+    this->tag_type = tagtype::OPENER;
+    return tagtype::OPENER;
 }
 
 map<string, string> tag::get_attr() {
@@ -75,12 +70,12 @@ string tag::get_attr_val(string key) {
     }
 }
 
-tag* tag::get_child() {
-    return child;
+vector<tag*> tag::get_children() {
+    return children;
 }
 
-void tag::set_child(tag* child) {
-    this->child = child;
+void tag::add_child(tag* child) {
+    this->children.push_back(child);
 }
 
 bool tag::is_closer() {

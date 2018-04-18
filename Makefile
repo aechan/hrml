@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -c -Wall -Iinclude
 LDFLAGS =
 SRC = src/
-SOURCES = $(SRC)tag.cpp $(SRC)parser.cpp
-OBJECTS = $(subst src/,out/,$(SOURCES:.cpp=.o))
+SOURCES = $(SRC)tag.cpp $(SRC)parser.cpp $(SRC)main.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = hrml
 OUTDIR = out/
 
@@ -15,7 +15,7 @@ setup:
 build: $(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) $(subst src/,out/,$(OBJECTS)) -o $@
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $(subst src/,out/,$@)
 

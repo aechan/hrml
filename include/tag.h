@@ -2,32 +2,33 @@
 #include <string>
 #include <vector>
 #include <map>
-
-using namespace std;
+#include "tagtype.h"
 
 class tag {
     private:
         // name of tag e.g. <tag1></tag1> would be tag1
-        string name;
+        std::string name;
         // hold the reference to direct child
-        tag* child;   
+        std::vector<tag*> children;   
         // map of key value pairs for attributes
-        map<string, string> attr;
+        std::map<std::string, std::string> attr;
         // parser function
-        void parsestring(string str);
+        tagtype parsestring(std::string str);
         // is this a closer </tag>
         bool closer;
+
+        tagtype tag_type;
     public: 
-        // ctor
-        tag(string str);
         // get all attributes
-        map<string, string> get_attr();
+        std::map<std::string, std::string> get_attr();
         // get a single attribute value
-        string get_attr_val(string key);
+        std::string get_attr_val(std::string key);
         // get all children
-        tag* get_child();
+        std::vector<tag*> get_children();
         // add child
-        void set_child(tag* child);
+        void add_child(tag* child);
         
         bool is_closer();
+
+        tagtype get_type();
 };
