@@ -45,3 +45,14 @@ In general the format for querying data is:
 ```
 tag1.tag2.tag3~attribute // will get the value associated with the 3rd nested tag's attribute
 ```
+## File Types
+### \*.hrml
+A HRML file, contains a graph of HRML tags.
+### \*.hrmlq
+A HRML query file, contains line separated list of hrml queries.
+
+## Build/Run
+```
+make
+./hrml <input.hrml> <query string or file.hrmlq>
+```
